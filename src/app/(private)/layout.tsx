@@ -17,7 +17,7 @@ export default async function RootLayout({
       <Box
         width={"100%"}
         sx={{
-          overflow: "hidden",
+          overflow:"hidden",
         }}
       >
         <TopBar user={auth} />

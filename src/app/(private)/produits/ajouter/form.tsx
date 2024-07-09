@@ -105,29 +105,30 @@ export default function AddForm({
               />
             </FormControl>
             <FormControl fullWidth>
-              <TextField
-                label="Prix"
-                name="prix"
-                required
-                defaultValue={formState.fieldValues.prix}
-                inputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      Unité Monnétaire
-                    </InputAdornment>
-                  ),
-                  inputProps: {
-                    step: 0.1,
-                  },
-                }}
-                fullWidth
-                error={Boolean(formState.errors?.prix)}
-                helperText={
-                  Boolean(formState.errors?.prix)
-                    ? formState.errors?.prix
-                    : "Inserer un prix"
-                }
-              />
+            <TextField
+                    label="Prix"
+                    name="prix"
+                    type="number"
+                    required
+                    defaultValue={formState.fieldValues.prix}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          $
+                        </InputAdornment>
+                      ),
+                      inputProps: {
+                        step: 0.1,
+                      },
+                    }}
+                    fullWidth
+                    error={Boolean(formState.errors?.prix)}
+                    helperText={
+                      Boolean(formState.errors?.prix)
+                        ? formState.errors?.designation
+                        : "Inserer un prix"
+                    }
+                  />
             </FormControl>
             <FormControl fullWidth>
               <TextField

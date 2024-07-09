@@ -144,6 +144,7 @@ export default function EditForm({
     if (formStateApprov.ok) {
       formApprovRef.current?.reset();
       setSnackBarInfo({ ok: formStateApprov.ok, msg: formStateApprov.message });
+      setOpenApprovDialog(false);
     } else {
       setSnackBarInfo({ ok: formStateApprov.ok, msg: formStateApprov.message });
     }
@@ -206,7 +207,16 @@ export default function EditForm({
                     name="prix"
                     required
                     defaultValue={formState.fieldValues.prix}
-                    // InputProps={{ readOnly: true }}
+                    inputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          $
+                        </InputAdornment>
+                      ),
+                      inputProps: {
+                        step: 0.1,
+                      },
+                    }}
                     fullWidth
                     error={Boolean(formState.errors?.prix)}
                     helperText={
@@ -357,7 +367,7 @@ export default function EditForm({
         }}
       >
         <DialogTitle id="form-title">
-          Approvsionner &quot;{data?.designation}&quot;
+          Approvisionner &quot;{data?.designation}&quot;
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="form-description">
@@ -376,6 +386,7 @@ export default function EditForm({
                   <TextField
                     label="Quantite"
                     name="quantite"
+                    type="number"
                     required
                     defaultValue={formStateApprov.fieldValues.quantite}
                     fullWidth
@@ -397,7 +408,7 @@ export default function EditForm({
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          Unité Monnétaire
+                          $
                         </InputAdornment>
                       ),
                       inputProps: {

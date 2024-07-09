@@ -125,7 +125,7 @@ export default function EditForm({
                 inputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      Unité Monnétaire
+                      $
                     </InputAdornment>
                   ),
                   inputProps: {

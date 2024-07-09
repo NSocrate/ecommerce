@@ -24,14 +24,13 @@ export default function Static({
                   Aujourd&apos;hui
                 </Typography>
               </Grid>
-              <Grid item xs={9}>
+              <Grid item xs={8}>
                 <Typography variant="h5" fontWeight={500}>
-                  {today}
+                  {today} $
                 </Typography>
-                Unité monétaire
               </Grid>
-              <Grid item xs={3} alignSelf={"center"}>
-                {(today * 100) / (month || 1)} %
+              <Grid item xs={4} alignSelf={"center"}>
+                {((today * 100) / (month || 1)).toFixed(2)} %
               </Grid>
             </Grid>
           </Paper>
@@ -41,17 +40,16 @@ export default function Static({
             <Grid container>
               <Grid item xs={12}>
                 <Typography variant="subtitle1" pb={2}>
-                  Semaines
+                  Semaine
                 </Typography>
               </Grid>
-              <Grid item xs={9}>
+              <Grid item xs={8}>
                 <Typography variant="h5" fontWeight={500}>
-                  {week}
+                  {week} $
                 </Typography>
-                Unité monétaire
               </Grid>
-              <Grid item xs={3} alignSelf={"center"}>
-                {(week * 100) / (month || 1)} %
+              <Grid item xs={4} alignSelf={"center"}>
+                {((week * 100) / (month || 1)).toFixed(2)} %
               </Grid>
             </Grid>
           </Paper>
@@ -64,13 +62,12 @@ export default function Static({
                   Mois
                 </Typography>
               </Grid>
-              <Grid item xs={9}>
+              <Grid item xs={8}>
                 <Typography variant="h5" fontWeight={500}>
-                  {month}
+                  {month} $
                 </Typography>
-                Unité monétaire
               </Grid>
-              <Grid item xs={3} alignSelf={"center"}>
+              <Grid item xs={4} alignSelf={"center"}>
                 100 %
               </Grid>
             </Grid>

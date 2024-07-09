@@ -276,6 +276,7 @@ export default function EditForm({
                   <TextField
                     label="Quantite"
                     name="quantite"
+                    type="number"
                     required
                     defaultValue={formStateProduct.fieldValues.quantite}
                     fullWidth
@@ -297,7 +298,7 @@ export default function EditForm({
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          Unité Monnétaire
+                          $
                         </InputAdornment>
                       ),
                       inputProps: {

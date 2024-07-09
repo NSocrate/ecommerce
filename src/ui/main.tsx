@@ -10,7 +10,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
         height: "100%",
         overflow: "auto",
         paddingTop: "1rem",
-        paddingBottom: "3rem",
+        paddingBottom: "5rem",
         background: theme.palette.grey[50],
       }}
       component={"main"}

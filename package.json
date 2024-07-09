@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start",
+    "start":  "NODE_ENV=production node server.js",
     "lint": "next lint"
   },
   "dependencies": {
@@ -40,5 +40,13 @@
     "prisma": "^5.15.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "pkg": {
+    "scripts": ["server.js"],
+    "assets": ["public/**/*"],
+    "targets": ["node14-linux-x64", "node14-macos-x64", "node14-win-x64"]
+},
+  "bin": {
+    "gestock": "./server.js"
   }
 }

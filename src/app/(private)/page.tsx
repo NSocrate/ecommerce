@@ -82,7 +82,7 @@ export default async function Home() {
                       {commande?.ligneCommande.reduce(
                         (acc, ligne) => acc + ligne.prix * ligne.quantite,
                         0
-                      )} UM
+                      )} $
                     </TableCell>
                     <TableCell align="center">{formatDate(commande?.date,"dd/MM/yyyy")}</TableCell>
                   </TableRow>

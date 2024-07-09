@@ -68,8 +68,6 @@ export default function EditForm({
       }[]
     | null;
 }) {
-  console.log(data?.ligneCommande);
-
   const { pending } = useFormStatus();
   const [formStateLigne, formActionLigne] = useFormState(AjouterLigne, {
     ok: false,
@@ -97,6 +95,7 @@ export default function EditForm({
     quantite: 0,
     categorieId: 0,
   });
+  const [prix, setPrix] = useState(0);
   const columns = [
     {
       field: "produit",
@@ -149,6 +148,7 @@ export default function EditForm({
         quantite: 0,
         categorieId: 0,
       });
+      setPrix(0);
       setSnackBarInfo({
         ok: formStateLigne.ok,
         msg: formStateLigne.message,
@@ -224,7 +224,7 @@ export default function EditForm({
                   <Button
                     startIcon={<PrintIcon />}
                     component={Link}
-                    href="/commandes/print"
+                    href={`/commandes/${data?.id}/voir`}
                     variant="contained"
                     color="success"
                   >
@@ -328,7 +328,7 @@ export default function EditForm({
                     required
                     name="produitId"
                     error={Boolean(formStateLigne.errors?.produitId)}
-                    onChange={(e) =>
+                    onChange={(e) => {
                       setProduit(
                         produits?.find(
                           (produit) => produit.id.toString() == e.target.value
@@ -339,8 +339,13 @@ export default function EditForm({
                           quantite: 0,
                           categorieId: 0,
                         }
-                      )
-                    }
+                      );
+                      setPrix(
+                        produits?.find(
+                          (produit) => produit.id.toString() == e.target.value
+                        )?.prix ?? 0
+                      );
+                    }}
                   >
                     {produits &&
                       produits.map((produit) => (
@@ -365,19 +370,14 @@ export default function EditForm({
                       name="prix"
                       type="number"
                       required
-                      value={produit.prix}
+                      value={prix}
                       onChange={(e) =>
-                        parseInt(e.target.value) > produit.prix &&
-                        setProduit({
-                          ...produit,
-                          prix: parseInt(e.target.value),
-                        })
+                        parseFloat(e.target.value) >= produit.prix &&
+                        setPrix(parseFloat(e.target.value))
                       }
-                      inputProps={{
+                      InputProps={{
                         endAdornment: (
-                          <InputAdornment position="end">
-                            Unité Monnétaire
-                          </InputAdornment>
+                          <InputAdornment position="end">$</InputAdornment>
                         ),
                         inputProps: {
                           step: 0.1,

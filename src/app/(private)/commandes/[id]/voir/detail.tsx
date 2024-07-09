@@ -1,5 +1,6 @@
 "use client";
 import {
+    Box,
   Button,
   Grid,
   Stack,
@@ -11,53 +12,36 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { getCommande } from "../(private)/commandes/actions";
 import { formatDate } from "date-fns/format";
 import { useEffect, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-
-export default function Print() {
+export default function Detail({
+  com,
+}: {
+  com: {
+    id: number;
+    client: string | null;
+    date: Date;
+    ligneCommande: {
+      id: number;
+      prix: number;
+      produitId: number;
+      quantite: number;
+      commandeId: number;
+      produit: {
+        id: number;
+        designation: string;
+        quantite: number;
+        prix: number;
+        categorieId: number;
+      };
+    }[];
+  } | null;
+}) {
   const facture = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
     content: () => facture.current,
   });
-  // const com = await getCommande(2);
-  // console.log(com?.ligneCommande);
-  const com = {
-    id: 2,
-    date: "2024-06-30T14:12:20.613Z",
-    client: "mikson",
-    ligneCommande: [
-      {
-        id: 8,
-        prix: 150,
-        produitId: 2,
-        quantite: 3,
-        commandeId: 2,
-        produit: {
-          id: 2,
-          designation: "Grands hollandais",
-          quantite: 263,
-          prix: 150,
-          categorieId: 20,
-        },
-      },
-      {
-        id: 9,
-        prix: 200,
-        produitId: 3,
-        quantite: 3,
-        commandeId: 2,
-        produit: {
-          id: 3,
-          designation: "Grands super",
-          quantite: 117,
-          prix: 200,
-          categorieId: 20,
-        },
-      },
-    ],
-  };
   useEffect(() => {
     handlePrint();
   }, [handlePrint]);
@@ -87,7 +71,7 @@ export default function Print() {
                 .concat(com?.client.substring(1, com?.client.length))}
             </Typography>
             <Typography>
-              Date : {formatDate(com?.date as Date, "dd/MM/yyyy")}
+              Date : {formatDate(new Date(com?.date as Date), "dd/MM/yyyy")}
             </Typography>
           </Stack>
           <TableContainer sx={{ width: "100%" }}>
@@ -108,7 +92,7 @@ export default function Print() {
                     }}
                   >
                     <TableCell>{ligne?.produit.designation}</TableCell>
-                    <TableCell>{ligne?.prix}</TableCell>
+                    <TableCell>{ligne?.prix}$</TableCell>
                     <TableCell>{ligne?.quantite}</TableCell>
                   </TableRow>
                 ))}
@@ -123,7 +107,7 @@ export default function Print() {
                     {com?.ligneCommande.reduce(
                       (acc, ligne) => acc + ligne.quantite * ligne.prix,
                       0
-                    )}
+                    )} $
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -145,6 +129,11 @@ export default function Print() {
           </Stack>
         </Grid>
       </Grid>
+      <Box textAlign={"center"}>
+        <Button variant="contained" color="info" onClick={handlePrint}>
+          Imprimer
+        </Button>
+      </Box>
     </>
   );
 }

@@ -4,6 +4,7 @@ import { LoadingButton } from "@mui/lab";
 import {
   FormControl,
   FormHelperText,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Paper,
@@ -92,9 +93,19 @@ export default function AddForm({
               <TextField
                 label="Prix"
                 name="prix"
+                type="number"
                 required
                 defaultValue={formState.fieldValues.prix}
-                // InputProps={{ readOnly: true }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      $
+                    </InputAdornment>
+                  ),
+                  inputProps: {
+                    step: 0.1,
+                  },
+                }}
                 fullWidth
                 error={Boolean(formState.errors?.prix)}
                 helperText={

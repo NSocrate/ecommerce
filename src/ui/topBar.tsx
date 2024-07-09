@@ -123,7 +123,7 @@ export default function TopBar({ user }: { user: { login: string } }) {
             >
               <Avatar>
                 <Typography variant="h4" fontWeight={"900"}>
-                  {user?.login.charAt(0).toUpperCase()}
+                  {user?.login?.charAt(0).toUpperCase()}
                 </Typography>
               </Avatar>
             </IconButton>
@@ -149,10 +149,10 @@ export default function TopBar({ user }: { user: { login: string } }) {
                   <PersonIcon sx={{ width: 25, height: 25 }} />
                   <Box>
                     <Typography>
-                      {user.login
-                        .charAt(0)
+                      {user?.login
+                        ?.charAt(0)
                         .toUpperCase()
-                        .concat(user.login.substring(1, user.login.length))}
+                        .concat(user?.login.substring(1, user?.login.length))}
                     </Typography>
                   </Box>
                 </Stack>

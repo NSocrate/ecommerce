@@ -24,6 +24,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { SnackAlert } from "./snackBar";
+import { FaEye, FaLock, FaLockOpen } from "react-icons/fa6";
 
 export default function Data({
   rows,
@@ -33,7 +34,10 @@ export default function Data({
   formAction,
   route,
   action,
+  deleteAction = true,
   update = true,
+  voirBtn = false,
+  actifBtn,
 }: {
   rows: { id: number }[] | undefined;
   columns: { field: string; headerName: string; width?: number | 500 }[];
@@ -43,6 +47,9 @@ export default function Data({
   route: string;
   action?: boolean;
   update?: boolean;
+  deleteAction?: boolean;
+  voirBtn?: boolean;
+  actifBtn?: (id: number) => Promise<boolean>;
 }) {
   const theme = useTheme();
   const { pending } = useFormStatus();
@@ -79,6 +86,19 @@ export default function Data({
         </IconButton>
       ),
     },
+    // {
+    //   field: "anneeScolaire",
+    //   headerName: "",
+    //   renderCell: ({
+    //     row: { anneeScolaireId },
+    //   }: {
+    //     row: { anneeScolaireId: number };
+    //   }) => (
+    //     <IconButton>
+    //       <FaEye />
+    //     </IconButton>
+    //   ),
+    // },
   ];
   const [rowSelected, setRowSelected] = useState<any>({});
   return (
@@ -123,6 +143,17 @@ export default function Data({
           horizontal: "right",
         }}
       >
+        {voirBtn && (
+          <MenuItem
+            component={Link}
+            href={`/${route}/${rowSelected?.eleveId}/${rowSelected.anneeScolaireId}`}
+            onClick={handleClose}
+          >
+            <FaEye fontSize="small" />
+            <Typography pl={1}>Voir</Typography>
+          </MenuItem>
+        )}
+        {(update || deleteAction) && voirBtn && <Divider />}
         {update && (
           <MenuItem
             component={Link}
@@ -133,18 +164,47 @@ export default function Data({
             <Typography pl={1}>Modifier</Typography>
           </MenuItem>
         )}
-        {update && <Divider />}
-        <MenuItem
-          onClick={() => {
-            setOpenDialog(true);
-            setAnchorEl(null);
-          }}
-          sx={{ color: theme.palette.error.main }}
-        >
-          <Delete />
-          <Typography pl={1}>Suprimer</Typography>
-        </MenuItem>
+        {update && deleteAction && <Divider />}
+        {deleteAction && (
+          <MenuItem
+            onClick={() => {
+              setOpenDialog(true);
+              setAnchorEl(null);
+            }}
+            sx={{ color: theme.palette.error.main }}
+          >
+            <Delete />
+            <Typography pl={1}>Suprimer</Typography>
+          </MenuItem>
+        )}
+        {deleteAction && actifBtn && <Divider />}
+        {actifBtn && (
+          <MenuItem
+            onClick={async () => {
+              if (await actifBtn(rowSelected?.id)) {
+                setsnackBarInfo({ ok: true, msg: "Changement effectué" });
+              } else {
+                setsnackBarInfo({ ok: false, msg: "Echec de changement" });
+              }
+              setAnchorEl(null);
+            }}
+            disabled={rowSelected?.actif == "Non" ? false : true}
+            sx={{
+              color:
+                rowSelected?.actif == "Non"
+                  ? theme.palette.success.main
+                  : theme.palette.common.black,
+            }}
+          >
+            {rowSelected?.actif == "Non" ? <FaLockOpen /> : <FaLock />}
+            <Typography pl={1}>
+              {" "}
+              {rowSelected?.actif == "Non" ? "Activer" : "Desactiver"}{" "}
+            </Typography>
+          </MenuItem>
+        )}
       </Menu>
+
       {formAction && (
         <Dialog
           aria-labelledby="dialog-title"
@@ -157,7 +217,7 @@ export default function Data({
           <DialogTitle id="dialog-title">Suppression</DialogTitle>
           <DialogContent>
             <DialogContentText id="dialog-description">
-              Êtes-vous sûr de supprimer {subTag && subTag}{" "}
+              Êtes-vous sûr de supprimer {subTag && subTag}{" "} 
               {rowSelected[tag ? tag : "id"]} ?
             </DialogContentText>
             <DialogActions>

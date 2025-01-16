@@ -1,17 +1,43 @@
 "use client";
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { useEffect, useState } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
+import { TiHome } from "react-icons/ti";
 import Image from "next/image";
 import Link from "next/link";
-import Category from "@mui/icons-material/Category";
-import LocalParking from "@mui/icons-material/LocalParking";
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import { usePathname } from "next/navigation";
-import ShoppingBag from "@mui/icons-material/ShoppingBag";
-
-const Prosidebar = ({ isDrawer = false }) => {
+import { IoIosAddCircle } from "react-icons/io";
+import { FaPeopleRoof } from "react-icons/fa6";
+import {
+  TbCircleLetterCFilled,
+  TbCircleLetterDFilled,
+  TbHexagonLetterAFilled,
+  TbHexagonLetterCFilled,
+  TbHexagonLetterDFilled,
+  TbHexagonLetterEFilled,
+  TbHexagonLetterOFilled,
+  TbHexagonLetterSFilled,
+  TbHexagonLetterTFilled,
+  TbHexagonLetterPFilled,
+  TbListNumbers,
+  TbCircleLetterTFilled,
+  TbCircleLetterPFilled,
+  TbCircleLetterEFilled,
+  TbHexagonLetterC,
+  TbHexagonLetterRFilled,
+} from "react-icons/tb";
+import { FaUsersCog } from "react-icons/fa";
+const Prosidebar = ({
+  auth,
+  isDrawer = false,
+}: {
+  auth: {
+    id: number;
+    login: string;
+    fonction: string;
+  };
+  isDrawer?: boolean;
+}) => {
   const [collapseSidebar, setCollapseSidebar] = useState(false);
   const pathname = usePathname();
   const theme = useTheme();
@@ -22,8 +48,10 @@ const Prosidebar = ({ isDrawer = false }) => {
         : setCollapseSidebar(false);
     });
   });
+
   return (
     <Sidebar
+      width="270px"
       backgroundColor={theme.palette.background.default}
       breakPoint={!isDrawer ? "sm" : undefined}
       transitionDuration={500}
@@ -44,14 +72,10 @@ const Prosidebar = ({ isDrawer = false }) => {
         p={1}
         pb={3}
       >
-        <Image src={"/OS.png"} width={50} height={50} alt="logo" />
+        <Image src={"/icon.png"} width={50} height={50} alt="logo" />
         {!collapseSidebar && (
-          <Typography
-            variant="h6"
-            color={theme.palette.primary.main}
-            fontWeight={500}
-          >
-            GESTOCK
+          <Typography variant="h6" fontWeight={500}>
+            EDAP/ISP
           </Typography>
         )}
       </Box>
@@ -74,14 +98,18 @@ const Prosidebar = ({ isDrawer = false }) => {
               color: theme.palette.common.white,
             },
             ["&"]: {
-              borderTopLeftRadius: "2rem",
-              borderEndEndRadius: "2rem",
+              borderTopLeftRadius: "1.7rem",
+              borderEndEndRadius: "1.7rem",
+              height: "45px",
             },
-            marginBottom:1
+            marginBottom: 1,
           },
-
           icon: {
             color: theme.palette.primary.main,
+            fontSize: "1.5rem",
+          },
+          subMenuContent: {
+            background: theme.palette.common.white,
           },
         }}
       >
@@ -91,67 +119,15 @@ const Prosidebar = ({ isDrawer = false }) => {
           </MenuItem>
         )}
         <MenuItem
-          icon={<HomeIcon />}
           component={
             <Link
-              href={"/"}
-              className={pathname.endsWith("/") ? "active" : undefined}
+              href={"/articles"}
+              className={pathname === "/" ? "active" : undefined}
             />
           }
+          icon={<TiHome />}
         >
-          Accueil
-        </MenuItem>
-        <MenuItem
-          component={
-            <Link
-              href={"/categories"}
-              className={
-                pathname.startsWith("/categories") ? "active" : undefined
-              }
-            />
-          }
-          icon={<Category />}
-        >
-          Catégories
-        </MenuItem>
-        <MenuItem
-          component={
-            <Link
-              href={"/produits"}
-              className={
-                pathname.startsWith("/produits") ? "active" : undefined
-              }
-            />
-          }
-          icon={<LocalParking />}
-        >
-          Produits
-        </MenuItem>
-        <MenuItem
-          component={
-            <Link
-              href={"/approvisionnements"}
-              className={
-                pathname.startsWith("/approvisionnements") ? "active" : undefined
-              }
-            />
-          }
-          icon={<AddBusinessIcon />}
-        >
-          Approvisionnements
-        </MenuItem>
-        <MenuItem
-          component={
-            <Link
-              href={"/commandes"}
-              className={
-                pathname.startsWith("/commandes") ? "active" : undefined
-              }
-            />
-          }
-          icon={<ShoppingBag />}
-        >
-          Commandes
+          Articles
         </MenuItem>
       </Menu>
     </Sidebar>

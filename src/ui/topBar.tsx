@@ -22,7 +22,11 @@ import ThemeSwitch from "./ThemeSwitch";
 import PersonIcon from "@mui/icons-material/Person";
 import { LogOut } from "@/app/(auth)/actions";
 
-export default function TopBar({ user }: { user: { login: string } }) {
+export default function TopBar({
+  user,
+}: {
+  user: { id: number; login: string; fonction: string };
+}) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const theme = useTheme();
@@ -101,7 +105,7 @@ export default function TopBar({ user }: { user: { login: string } }) {
               open={isDrawerOpen}
               onClose={() => setIsDrawerOpen(false)}
             >
-              <Prosidebar isDrawer={true} />
+              <Prosidebar isDrawer={true} auth={user} />
             </Drawer>
           </Stack>
           <Stack
@@ -111,7 +115,7 @@ export default function TopBar({ user }: { user: { login: string } }) {
               },
             }}
           >
-            <Image src={"/OS.png"} alt="logo" width={50} height={50} />
+            <Image src={"/icon.png"} alt="logo" width={50} height={50} />
           </Stack>
           <Stack direction={"row"}>
             <ThemeSwitch />

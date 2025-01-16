@@ -44,7 +44,7 @@ export default function Form() {
           name="login"
           InputProps={{
             startAdornment: (
-              <InputAdornment position="start" style={{}}>
+              <InputAdornment position="start">
                 <Person2OutlinedIcon />
               </InputAdornment>
             ),

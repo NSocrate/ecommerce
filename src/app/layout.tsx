@@ -8,10 +8,10 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: "Gestion de stock",
-    template: "%s | Gestock",
+    default: "E-Commerce",
+    template: "%s | E-Commerce",
   },
-  description: "Application de gestion de stock",
+  description: "Application d'e-commerce test ",
 };
 
 export default async function RootLayout({
@@ -21,9 +21,9 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <head>
-        <link rel="icon" href="/icon.png" type="image/png" sizes="32x32" />
-      </head>
+        <head>
+          <link rel="icon" href="/favicon.ico" type="image/ico" sizes="32x32" />
+        </head>
       <body className={inter.className}>
         <ModeProvider>
           <MuiProvider>

@@ -10,8 +10,7 @@ export default function Page404() {
       <p className="font-black"> Page introuvable</p>
       <Button
         onClick={() => router.back()}
-        variant="outlined"
-        
+        variant="outlined" 
       >
         Retour
       </Button>

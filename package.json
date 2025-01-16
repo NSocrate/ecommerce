@@ -1,11 +1,11 @@
 {
-  "name": "gestock",
+  "name": "ecommerce-test",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node server.js",
+    "dev": "next dev",
     "build": "next build",
-    "start":  "NODE_ENV=production node server.js",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -23,8 +23,10 @@
     "dayjs": "^1.11.11",
     "next": "14.2.4",
     "next-themes": "^0.3.0",
+    "node-fpdf": "^1.0.49",
     "react": "^18",
     "react-dom": "^18",
+    "react-icons": "^5.2.1",
     "react-pro-sidebar": "^1.1.0",
     "react-to-print": "^2.15.1",
     "sharp": "^0.33.4",
@@ -42,10 +44,18 @@
     "typescript": "^5"
   },
   "pkg": {
-    "scripts": ["server.js"],
-    "assets": ["public/**/*"],
-    "targets": ["node14-linux-x64", "node14-macos-x64", "node14-win-x64"]
-},
+    "scripts": [
+      "server.js"
+    ],
+    "assets": [
+      "public/**/*"
+    ],
+    "targets": [
+      "node14-linux-x64",
+      "node14-macos-x64",
+      "node14-win-x64"
+    ]
+  },
   "bin": {
     "gestock": "./server.js"
   }

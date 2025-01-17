@@ -1,7 +1,5 @@
-import { Box, Grid, Paper, Typography } from "@mui/material";
-import { getUsers } from "../actions";
+import { Grid, Paper, Typography } from "@mui/material";
 import Form from "./form";
-import { redirect } from "next/navigation";
 export const metadata = {
   title: "Connexion",
   description: `la page de connexion`,

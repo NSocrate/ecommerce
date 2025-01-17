@@ -20,12 +20,12 @@ import Prosidebar from "./proSideBar";
 import Image from "next/image";
 import ThemeSwitch from "./ThemeSwitch";
 import PersonIcon from "@mui/icons-material/Person";
-import { LogOut } from "@/app/(auth)/actions";
+import { SignOut } from "@/app/lib/actions";
 
 export default function TopBar({
   user,
 }: {
-  user: { id: number; login: string; fonction: string };
+  user: { id: number; name: {firstname: string; lastname: string} };
 }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -127,7 +127,7 @@ export default function TopBar({
             >
               <Avatar>
                 <Typography variant="h4" fontWeight={"900"}>
-                  {user?.login?.charAt(0).toUpperCase()}
+                  {user.name?.firstname.charAt(0).toUpperCase()}
                 </Typography>
               </Avatar>
             </IconButton>
@@ -153,17 +153,18 @@ export default function TopBar({
                   <PersonIcon sx={{ width: 25, height: 25 }} />
                   <Box>
                     <Typography>
-                      {user?.login
-                        ?.charAt(0)
+                      {user.name?.firstname
+                        .charAt(0)
                         .toUpperCase()
-                        .concat(user?.login.substring(1, user?.login.length))}
+                        .concat(user.name?.firstname.substring(1, user.name?.firstname.length))}
+                         {user.name?.lastname}
                     </Typography>
                   </Box>
                 </Stack>
               </MenuItem>
               <Divider />
               <MenuItem onClick={handleClose} sx={{ padding: 0 }}>
-                <form action={LogOut}>
+                <form action={SignOut}>
                   <Button
                     type="submit"
                     fullWidth

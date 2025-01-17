@@ -10,10 +10,8 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import Image from "next/image";
 import Link from "next/link";
 import { Fragment, Suspense } from "react";
-import { FaCartFlatbed } from "react-icons/fa6";
 
 export default function ProdList({
   data,
@@ -65,9 +63,9 @@ export default function ProdList({
               >
                 <Card sx={{ maxWidth: 345, minHeight: 400, maxHeight: 600 }}>
                   <CardMedia
-                    sx={{ height: 180, objectFit: "cover" }}
+                    sx={{ height: 180, backgroundSize: "contain" }}
                     image={article.image}
-                    title="green iguana"
+                    title={article.title}
                   />
                   <CardContent>
                     <Typography

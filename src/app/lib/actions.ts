@@ -2,6 +2,7 @@
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { encrypt } from "./functions";
 export async function AuthVerify() {
   const authToken = cookies().get("session")?.value;
 
@@ -10,18 +11,16 @@ export async function AuthVerify() {
 
 export async function GET(url: string, tag: string, revalidate?: number) {
   const authToken = cookies().get("session")?.value;
-  const rs = await fetch(
-    `${process.env.API_URL}/${url}`,{
-      next: {
-        revalidate: 60,
-        tags: [tag],
-      },
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const rs = await fetch(`${process.env.API_URL}/${url}`, {
+    next: {
+      revalidate: 60,
+      tags: [tag],
+    },
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   if (!rs.ok) {
     console.log(rs);
     if (rs.status === 403) {
@@ -61,27 +60,15 @@ export async function POST(
     );
     if (rs.ok) {
       revalidateTag(tag);
-      return await rs.json();
+      const data = await rs.json();
+      console.log(data);
+
+      return data;
     }
     console.log(await rs.text());
     return rs.ok;
   }
   return redirect("/login");
-}
-
-export async function SignIn(url: string, body: {}) {
-  const rs = await fetch(`${process.env.API_URL}/${url}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-  if (rs.ok) {
-    return await rs.json();
-  }
-  console.log(await rs.text());
-  return rs.ok;
 }
 
 export async function PUT(
@@ -136,66 +123,39 @@ export async function DELETE(url: string, tag: string) {
   return true;
 }
 
-export async function Login(body: {}) {
-  const rs = await fetch(`${process.env.API_URL}/token`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
+export async function Login(body: { username: string; password: string }) {
+  // const rs = await fetch(`https://fakestoreapi.com/auth/login`, {
+  //   method: "POST",
+  //   body: JSON.stringify(body),
+  // });
+
+  const rs = await fetch(`https://fakestoreapi.com/users`, {
+    method: "GET",
   });
+
   if (rs.ok) {
     const data = await rs.json();
-    const expire = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-    cookies().set("session", data.access, { expires: expire, httpOnly: true });
-    cookies().set("refresh", data.refresh, { expires: expire, httpOnly: true });
+    const auth = data.find(
+      (user: { username: string; password: string }) =>
+        user.username === body.username && user.password === body.password
+    );
+    
+    if (auth) {
+      const expire = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+      cookies().set("session", encrypt(auth.id.toString()), { expires: expire, httpOnly: true });
+    } else {
+      return false;
+    }
   }
+
   return rs.ok;
 }
 
 export async function SignOut() {
   cookies().set("session", "", { expires: new Date(0) });
-  cookies().set("refresh", "", { expires: new Date(0) });
-  redirect("/");
+  cookies().set("products", "[]", { expires: new Date(0) });
+  redirect("/connexion");
 }
-
-export async function refresh() {
-  const refreshToken = cookies().get("refresh")?.value;
-  const rs = await fetch(`${process.env.API_URL}/token`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      refresh: refreshToken,
-    }),
-  });
-  if (rs.ok) {
-    const data = await rs.json();
-    cookies().set("auth", data.access);
-    cookies().set("refresh", data.refresh);
-  }
-  return rs.ok;
-}
-
-export default async function FetchAuth(): Promise<any> {
-  const authToken = cookies().get("session")?.value;
-  if (authToken) {
-    const rs = await fetch(`${process.env.API_URL}/users/me`, {
-      next: { revalidate: 60 * 60, tags: ["auth"] },
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${authToken}`,
-      },
-    });
-    if (rs.ok) {
-      return await rs.json();
-    }
-    return rs.ok;
-  } else return false;
-}
-
 // autres methodes
 
 export async function getCategories() {

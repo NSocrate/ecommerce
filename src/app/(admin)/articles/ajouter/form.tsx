@@ -18,7 +18,11 @@ export default function AddForm() {
     ok: false,
     message: "",
     fieldValues: {
-      designation: "",
+      title: "",
+      price: 0,
+      description: "",
+      image: "",
+      category: "",
     },
     errors: undefined,
   });
@@ -54,22 +58,86 @@ export default function AddForm() {
         <form ref={formRef} action={formAction}>
           <Stack spacing={2}>
             <Typography variant="h6" color={"text.secondary"} gutterBottom>
-              Information sur l&apos;option
+              Information sur l&apos;article
             </Typography>
 
             <FormControl fullWidth>
               <TextField
-                label="Option"
+                label="Designation"
                 type="text"
-                name="designation"
+                name="title"
                 required
                 fullWidth
-                defaultValue={formState.fieldValues.designation}
-                error={Boolean(formState.errors?.designation)}
+                defaultValue={formState.fieldValues.title}
+                error={Boolean(formState.errors?.title)}
                 helperText={
-                  Boolean(formState.errors?.designation)
-                    ? formState.errors?.designation
-                    : "ex. EB, Sociale, etc."
+                  Boolean(formState.errors?.title)
+                    ? formState.errors?.title
+                    : "Inserez la designation de l'article"
+                }
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <TextField
+                label="Prix"
+                type="text"
+                name="price"
+                required
+                fullWidth
+                defaultValue={formState.fieldValues.price}
+                error={Boolean(formState.errors?.price)}
+                helperText={
+                  Boolean(formState.errors?.price)
+                    ? formState.errors?.price
+                    : "Inserez le prix"
+                }
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <TextField
+                label="Description"
+                type="text"
+                name="description"
+                required
+                fullWidth
+                defaultValue={formState.fieldValues.description}
+                error={Boolean(formState.errors?.description)}
+                helperText={
+                  Boolean(formState.errors?.description)
+                    ? formState.errors?.description
+                    : "Inserez la description de l'article"
+                }
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <TextField
+                label="Categorie"
+                type="text"
+                name="category"
+                required
+                fullWidth
+                defaultValue={formState.fieldValues.category}
+                error={Boolean(formState.errors?.category)}
+                helperText={
+                  Boolean(formState.errors?.title)
+                    ? formState.errors?.title
+                    : "Inserez la catégorie de l'article"
+                }
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <TextField
+                label="Image"
+                type="text"
+                name="image"
+                required
+                fullWidth
+                defaultValue={formState.fieldValues.image}
+                error={Boolean(formState.errors?.image)}
+                helperText={
+                  Boolean(formState.errors?.image)
+                    ? formState.errors?.image
+                    : "Inserez l'url contenant l'image de l'article"
                 }
               />
             </FormControl>

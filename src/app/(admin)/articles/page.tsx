@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import MuiLink from "@mui/material/Link";
 import Data from "@/ui/data";
-import { getArticles, Supprimer } from "./actions";
+import { getArticles } from "./actions";
 import { getCleanLink } from "../../lib/functions";
 const title = "Articles";
 export const metadata = {
@@ -94,11 +94,10 @@ export default async function Index() {
       </Stack>
       <Data
         columns={columns}
-        formAction={Supprimer}
         rows={data}
         route={getCleanLink(title)}
-        subTag="l'option"
-        tag="designation"
+        action={true}
+
       />
     </Stack>
   );

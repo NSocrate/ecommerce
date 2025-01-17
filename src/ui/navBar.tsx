@@ -19,8 +19,19 @@ import { CiCreditCard1 } from "react-icons/ci";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import Link from "next/link";
+import { SignOut } from "@/app/lib/actions";
 
-export default function NavBar() {
+export default function NavBar({
+  auth,
+  panier,
+}: {
+  auth: { id: number; name: { firstname: string; lastname: string } };
+  panier: {
+    quantity: number;
+    productId: number;
+  }[];
+}) {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const theme = useTheme();
@@ -90,8 +101,8 @@ export default function NavBar() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component={Link}
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -132,23 +143,25 @@ export default function NavBar() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: "block", md: "none" } }}
             >
-              
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: "center" }}>Mon panier</Typography>
-                </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography sx={{ textAlign: "center" }}>Mon panier</Typography>
+              </MenuItem>
 
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: "center" }}>Mes commandes</Typography>
-                </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography sx={{ textAlign: "center" }}>
+                  Mes commandes
+                </Typography>
+              </MenuItem>
 
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: "center" }}>Dashboard</Typography>
-                </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography sx={{ textAlign: "center" }}>Dashboard</Typography>
+              </MenuItem>
 
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: "center" }}>Déconnexion</Typography>
-                </MenuItem>
- 
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography sx={{ textAlign: "center" }}>
+                  Déconnexion
+                </Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -175,12 +188,15 @@ export default function NavBar() {
           <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
             <Button
               startIcon={
-                <Badge badgeContent={4} color="success">
+                <Badge badgeContent={panier.length} color="success">
                   <FaShoppingCart />
                 </Badge>
               }
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white" }}
+              LinkComponent={Link}
+
+              href="/panier"
             >
               Mon Panier
             </Button>
@@ -193,7 +209,10 @@ export default function NavBar() {
             </Button>
             <Tooltip title="Profil">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Obang" src="/static/images/avatar/2.jpg" />
+                <Avatar
+                  alt={auth.name.firstname.toUpperCase()}
+                  src=""
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -213,16 +232,34 @@ export default function NavBar() {
               onClose={handleCloseUserMenu}
             >
               <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: "center" }}>User name</Typography>
-                </MenuItem>
+                <Typography sx={{ textAlign: "center" }}>
+                  {auth.name.firstname.toUpperCase()}{" "}
+                  {auth.name.lastname.toUpperCase()}
+                </Typography>
+              </MenuItem>
 
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: "center" }}>Dashboard</Typography>
-                </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link href={"/articles"}>Dashboard</Link>
+              </MenuItem>
 
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: "center" }}>Déconnexion</Typography>
-                </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <form action={SignOut}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    sx={{
+                      "&:hover": {
+                        background: "transparent",
+                      },
+                      paddingLeft: "1rem",
+                      paddingRight: "1rem",
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    Déconnexion
+                  </Button>
+                </form>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

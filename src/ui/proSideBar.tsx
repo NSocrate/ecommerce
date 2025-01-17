@@ -2,39 +2,20 @@
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { useEffect, useState } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
-import { TiHome } from "react-icons/ti";
+import { TbHexagonLetterA } from "react-icons/tb";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { IoIosAddCircle } from "react-icons/io";
-import { FaPeopleRoof } from "react-icons/fa6";
-import {
-  TbCircleLetterCFilled,
-  TbCircleLetterDFilled,
-  TbHexagonLetterAFilled,
-  TbHexagonLetterCFilled,
-  TbHexagonLetterDFilled,
-  TbHexagonLetterEFilled,
-  TbHexagonLetterOFilled,
-  TbHexagonLetterSFilled,
-  TbHexagonLetterTFilled,
-  TbHexagonLetterPFilled,
-  TbListNumbers,
-  TbCircleLetterTFilled,
-  TbCircleLetterPFilled,
-  TbCircleLetterEFilled,
-  TbHexagonLetterC,
-  TbHexagonLetterRFilled,
-} from "react-icons/tb";
-import { FaUsersCog } from "react-icons/fa";
 const Prosidebar = ({
   auth,
   isDrawer = false,
 }: {
   auth: {
     id: number;
-    login: string;
-    fonction: string;
+    name:{
+      firstname:string;
+      lastname: string;
+    }
   };
   isDrawer?: boolean;
 }) => {
@@ -64,6 +45,7 @@ const Prosidebar = ({
       }
       style={{ height: "100vh", borderRight: "none" }}
     >
+      <Link href={"/"}>
       <Box
         display={"flex"}
         alignItems={"center"}
@@ -75,10 +57,11 @@ const Prosidebar = ({
         <Image src={"/icon.png"} width={50} height={50} alt="logo" />
         {!collapseSidebar && (
           <Typography variant="h6" fontWeight={500}>
-            EDAP/ISP
+            E - Commerce
           </Typography>
         )}
       </Box>
+      </Link>
       <Menu
         menuItemStyles={{
           button: {
@@ -125,7 +108,7 @@ const Prosidebar = ({
               className={pathname === "/" ? "active" : undefined}
             />
           }
-          icon={<TiHome />}
+          icon={<TbHexagonLetterA />}
         >
           Articles
         </MenuItem>

@@ -3,7 +3,7 @@ import { z, ZodError } from "zod";
 import { revalidatePath } from "next/cache";
 import { DELETE, GET, POST, PUT } from "../../lib/actions";
 
-const route = "/options";
+const route = "/articles";
 export type Fields = {
   title: string;
   price:number;
@@ -32,7 +32,7 @@ export async function getArticle(id:number) {
 
 async function Add(data: Fields) {
   try {
-    POST("products",data,"articles")
+    POST("products",data,"articles")    
     revalidatePath(route);
     return true;
   } catch (error) {
@@ -113,6 +113,8 @@ export async function Ajouter(
   const description = formData.get("description") as string;
   const image = formData.get("image") as string;
   const category = formData.get("category") as string;
+  console.log(image);
+  
   try {
     schema.parse({
       title,
@@ -156,7 +158,7 @@ export async function Ajouter(
     };
   } catch (error) {
     const zodError = error as ZodError;
-    const errorMap = zodError.flatten().fieldErrors;
+    const errorMap = zodError.flatten().fieldErrors;    
     return {
       ok: false,
       message: "Completer les champs",
@@ -176,56 +178,4 @@ export async function Ajouter(
       },
     };
   }
-}
-
-// export async function Modifier(
-//   prevState: FormState,
-//   formData: FormData
-// ): Promise<FormState> {
-//   const id = parseInt(formData.get("id") as string);
-//   const designation = formData.get("designation") as string;
-//   try {
-//     schema.parse({
-//       designation,
-//     });
-//     const rs = await Edit(id, {
-//       designation: designation,
-//     });
-//     if (rs) {
-//       return {
-//         ok: rs,
-//         message: "Modification reussie",
-//         fieldValues: {
-//           designation,
-//         },
-//         errors: undefined,
-//       };
-//     }
-//     return {
-//       ok: rs,
-//       message: "Enregistrement existant",
-//       fieldValues: {
-//         designation,
-//       },
-//       errors: undefined,
-//     };
-//   } catch (error) {
-//     const zodError = error as ZodError;
-//     const errorMap = zodError.flatten().fieldErrors;
-//     return {
-//       ok: false,
-//       message: "Completer les champs",
-//       fieldValues: {
-//         designation,
-//       },
-//       errors: {
-//         designation: errorMap["designation"]?.[0] ?? "",
-//       },
-//     };
-//   }
-// }
-
-export async function Supprimer(formData: FormData): Promise<boolean> {
-  const id = parseInt(formData.get("id") as string);
-  return await DELETE(`produits/${id}`,'articles');
 }

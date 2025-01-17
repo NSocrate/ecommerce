@@ -13,7 +13,7 @@ export default async function RootLayout({
   const auth = await getAuth();
   return (
     <Stack direction={"row"} height={"100vh"}>
-      {/* <Prosidebar auth={auth}/> */}
+      <Prosidebar auth={auth}/>
       <Box
         width={"100%"}
         sx={{

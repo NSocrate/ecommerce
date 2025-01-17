@@ -1,7 +1,7 @@
+"use server";
 import { getArticle } from "@/app/(admin)/articles/actions";
 import { getCleanLink } from "@/app/lib/functions";
 import {
-    Box,
   Breadcrumbs,
   Button,
   Card,
@@ -9,35 +9,41 @@ import {
   CardContent,
   CardMedia,
   Container,
-  Link,
+  FormControl,
   Rating,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
+import { ajouterAuPanier } from "../actions";;
+import { Fragment } from "react";
+import Link from "next/link";
+import LinkMui from "@mui/material/Link";
 
 export default async function Detail({ params }: { params: { slug: string } }) {
   const id = Number(params.slug.split("_")[1]);
   const article = await getArticle(id);
   return (
-    <Container sx={{ paddingY: 3 }}>
+    <Fragment>
       <Breadcrumbs aria-label="breadcrumb" sx={{ paddingBottom: 2 }}>
-        <Link underline="hover" color="inherit" href="/">
+        <LinkMui underline="hover" color="inherit" href="/" component={Link}>
           Acueil
-        </Link>
-        <Link
+        </LinkMui>
+        <LinkMui
           underline="hover"
           color="inherit"
           href={getCleanLink(`${article.title}_${article.id}`)}
+          component={Link}
         >
           {article.title}
-        </Link>
+        </LinkMui>
         <Typography sx={{ color: "text.primary" }}>Détail</Typography>
       </Breadcrumbs>
-      <Card sx={{ display:'block'}}>
+      <Card sx={{ display: { sm: "flex" } , justifyContent:"center"}}>
         <CardMedia
-          sx={{ width: "100%", height: 450, objectFit: "cover" }}
+          sx={{ width: 500, maxWidth:700, height: 450, backgroundSize: "contain" }}
           image={article.image}
-          title="green iguana"
+          title={article.title}
         />
         <Stack>
           <CardContent>
@@ -53,16 +59,35 @@ export default async function Detail({ params }: { params: { slug: string } }) {
             <Typography variant="h6" sx={{ color: "text.secondary" }}>
               Prix : {article.price} $
             </Typography>
-              <Rating
-                name="half-rating"
-                defaultValue={article.rating.rate}
-                precision={0.5}
-                readOnly
-              />
+            <Rating
+              name="half-rating"
+              defaultValue={article.rating.rate}
+              precision={0.5}
+              readOnly
+            />
           </CardActions>
-          <Button variant="outlined">Ajouter au panier</Button>
+
+          <form action={ajouterAuPanier} method="post">
+          <input type="number" name="article" value={id} hidden />
+            <Stack direction={"row"} spacing={2} padding={2}>
+              <FormControl fullWidth>
+                <TextField
+                  label="Quantite"
+                  type="number"
+                  name="quantite"
+                  fullWidth
+                  required
+                  defaultValue={1}
+                  inputProps={{ min: 1 }}
+                />
+              </FormControl>
+              <Button size="small" fullWidth variant="outlined" type="submit">
+                Ajouter au panier
+              </Button>
+            </Stack>
+          </form>
         </Stack>
       </Card>
-    </Container>
+    </Fragment>
   );
 }

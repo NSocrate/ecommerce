@@ -1,3 +1,12 @@
+<!-- test terminé 
+Désolé pour le retard, nous avions suivi le mieux qu'on peut aux exigences imposées par le test, ...
+
+
+pour l'autentification nous avions utilisé les informations des utilisateurs de fakeAPI comme pour les produits d'ailleurs
+
+ -->
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

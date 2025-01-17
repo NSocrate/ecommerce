@@ -1,9 +1,9 @@
 import { Box, Breadcrumbs, Grid, Stack, Typography } from "@mui/material";
 import MuiLink from "@mui/material/Link";
 import Link from "next/link";
-import AddForm from "./(admin)/articles/ajouter/form";
 import { getCleanLink } from "@/app/lib/functions";
-const title = "Options";
+import AddForm from "./form";
+const title = "Articles";
 export const metadata = {
   title: title,
   description: `Formulaire d'ajout des ${title.toLowerCase()}`,
